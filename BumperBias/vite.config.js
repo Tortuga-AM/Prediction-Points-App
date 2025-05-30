@@ -8,14 +8,24 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
+      devOptions: {
+        enabled: true, // IMPORTANT: Ensure devOptions are enabled for local testing
+      },
       manifest: {
         name: 'Bumper Bias',
         short_name: 'BumperBias',
         description: 'A fun way to predict FRC matches and earn Spirit Dollars!',
-        theme_color: '#ffffff',
+        theme_color: '#3498db',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
+        scope: '/',
+        orientation: 'portrait',
+        lang: 'en',
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -37,7 +47,9 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*/{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*/{js,css,html,png}'],
+        clientsClaim: true,
+        skipWaiting: true
       },
     }),
   ],
