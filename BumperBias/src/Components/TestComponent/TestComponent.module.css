@@ -1,0 +1,27 @@
+.container {
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.text {
+    color: #00796b;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.button {
+    background-color: #004d40;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.button:hover {
+    background-color: #00251a;
+}
