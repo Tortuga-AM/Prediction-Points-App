@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../SupabaseClient';
 
-function DashboardLayout({ children }) {
+function DashboardLayout({ children, profile }) {
     const navigate = useNavigate();
     const [anchorUserMenu, setAnchorUserMenu] = useState(null);
 
@@ -291,9 +291,11 @@ function DashboardLayout({ children }) {
                 </Box>
             </Drawer>
             <Toolbar /> {/* Spacer for fixed AppBar */}
-            <main>
-                {children}
-            </main>
+            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                {React.Children.map(children, child =>
+                    React.cloneElement(child, { profile: profile })
+                )}
+            </Box>
         </div>
     )
 }

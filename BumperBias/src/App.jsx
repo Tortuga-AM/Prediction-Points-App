@@ -9,6 +9,7 @@ import SpinnerLoader from './Components/SpinnerLoader/SpinnerLoader';
 import StudentDash from './Pages/Dashboard/StudentDash';
 import MentorDash from './Pages/Dashboard/MentorDash';
 import Redirector from './Components/Redirector/Redirector';
+import LeaderboardPage from './Pages/Leaderboard/leaderboardPage';
 
 function App() {
     const [session, setSession] = React.useState(null);
@@ -19,6 +20,8 @@ function App() {
     useEffect(() => {
         const checkUserAndProfile = async (currentSession) => {
             setSession(currentSession);
+            console.log('User Session:', currentSession);
+            console.log('User Metadata from JWT:', currentSession?.user?.user_metadata);
             if (!currentSession) {
                 setUser(null);
                 if (location.pathname !== '/') {
@@ -90,7 +93,9 @@ function App() {
                                 <div>Unknown role</div>
                             )}
                         </DashboardLayout>} />
-                        <Route path="/leaderboard" element={<DashboardLayout profile={user} />} />
+                        <Route path="/leaderboard" element={<DashboardLayout profile={user} >
+                            <LeaderboardPage user={user} />
+                        </DashboardLayout>} />
                         <Route path="/settings" element={<DashboardLayout profile={user} />} />
                         <Route path="/bets" element={<DashboardLayout profile={user} />} />
                         <Route path="*" element={<Redirector auth={true} />} />

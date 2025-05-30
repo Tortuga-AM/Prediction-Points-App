@@ -182,8 +182,25 @@ function AuthPage() {
             } else {
                 setError("");
                 alert("Successfully joined team #" + parsedTeamNumber);
-                // navigate('/dashboard');
             }
+            const { error: updateAuthUserError } = await supabase.auth.updateUser({
+                data: {
+                    role: role, // Update the role in auth user data
+                    team_id: team.id // The UUID of the newly created team
+                }
+            });
+            if (updateAuthUserError) throw updateAuthUserError;
+
+            const { data: { session: newSession }, error: refreshError } = await supabase.auth.refreshSession();
+
+            if (refreshError) {
+                console.error('Error refreshing session:', refreshError);
+            } else if (newSession) {
+                console.log('Session refreshed successfully:', newSession);
+            } else {
+                console.warn('Session refresh returned no new session, but no error. User might need re-login.');
+            }
+            navigate('/dashboard');
         } catch (err) {
             setError(err.message || "Team not found. Please check the team number and try again.");
         } finally {
@@ -229,8 +246,25 @@ function AuthPage() {
             } else {
                 setError("");
                 alert("Successfully created team #" + parsedTeamNumber);
-                // navigate('/dashboard');
             }
+            const { error: updateAuthUserError } = await supabase.auth.updateUser({
+                data: {
+                    role: role, // Update the role in auth user data
+                    team_id: team.id // The UUID of the joined team
+            }
+            });
+            if (updateAuthUserError) throw updateAuthUserError;
+            const { data: { session: newSession }, error: refreshError } = await supabase.auth.refreshSession();
+
+            if (refreshError) {
+                console.error('Error refreshing session:', refreshError);
+            } else if (newSession) {
+                console.log('Session refreshed successfully:', newSession);
+            } else {
+                console.warn('Session refresh returned no new session, but no error. User might need re-login.');
+            }
+            navigate('/dashboard');
+
         } catch (err) {
             setError(err.message || "Failed to create team. Please try again.");
         } finally {
